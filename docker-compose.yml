@@ -11,7 +11,7 @@ services:
       --model Qwen/Qwen3-VL-2B-Instruct-FP8
       --max-model-len 8192
       --max-num-batched-tokens 4096
-      --gpu-memory-utilization 0.45
+      --gpu-memory-utilization 0.3
       --enforce-eager
       --tensor-parallel-size 1
     environment:
@@ -50,7 +50,7 @@ services:
       --trust-remote-code
       --max-model-len 8192
       --max-num-batched-tokens 4096
-      --gpu-memory-utilization 0.45
+      --gpu-memory-utilization 0.3
       --enforce-eager
       --tensor-parallel-size 1
     environment:
@@ -64,6 +64,45 @@ services:
     shm_size: '2gb'
     ports:
       - "8001:8000"
+    volumes:
+      - ./models:/root/.cache/huggingface
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 120s
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    networks:
+      - ocr-network
+
+  paddle-ocr-vl:
+    image: vllm/vllm-openai:latest
+    command: >
+      --model PaddlePaddle/PaddleOCR-VL
+      --trust-remote-code
+      --max-model-len 8192
+      --max-num-batched-tokens 4096
+      --gpu-memory-utilization 0.3
+      --enforce-eager
+      --tensor-parallel-size 1
+    environment:
+      - HF_TOKEN=${HF_TOKEN:-}
+      - NCCL_DEBUG=INFO
+      - NCCL_IB_DISABLE=1
+      - NCCL_P2P_LEVEL=SYS
+      - NCCL_MIN_NCHANNELS=4
+      - NCCL_TOPO_FILE=/dev/null
+      - PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+    shm_size: '2gb'
+    ports:
+      - "8002:8000"
     volumes:
       - ./models:/root/.cache/huggingface
     healthcheck:

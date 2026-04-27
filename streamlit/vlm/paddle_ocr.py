@@ -8,7 +8,7 @@ class PaddleOCRModel(BaseVLM):
     def __init__(self):
         # Placeholder for PaddleOCR-VL backend (e.g. via PaddleServing or similar)
         self.api_url = "http://paddle-ocr-vl:8000/v1/chat/completions"
-        self.model_name = "PaddleOCR-VL"
+        self.model_name = "PaddlePaddle/PaddleOCR-VL"
 
     @classmethod
     def get_name(cls):
