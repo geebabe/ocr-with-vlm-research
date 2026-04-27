@@ -1,7 +1,7 @@
 import streamlit as st
 from core.state import init_session_state, load_session_state
 from core.pdf_processor import process_documents
-from models import get_model, get_model_names
+from streamlit.vlm import get_model, get_model_names
 from ui.styles import apply_custom_css
 from ui.components import (
     render_sidebar, 
