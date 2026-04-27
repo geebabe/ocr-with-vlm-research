@@ -1,12 +1,11 @@
 from .qwen_vl import QwenVLModel
-# Import future models here:
-# from models.vintern import VinternModel
-# from models.paddle_ocr import PaddleOCRModel
+from .vintern import VinternModel
+from .paddle_ocr import PaddleOCRModel
 
 AVAILABLE_MODELS = {
     QwenVLModel.get_name(): QwenVLModel,
-    # VinternModel.get_name(): VinternModel,
-    # PaddleOCRModel.get_name(): PaddleOCRModel,
+    VinternModel.get_name(): VinternModel,
+    PaddleOCRModel.get_name(): PaddleOCRModel,
 }
 
 def get_model(name):

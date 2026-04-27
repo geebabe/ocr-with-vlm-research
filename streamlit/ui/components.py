@@ -61,9 +61,49 @@ def render_results(selected_file):
                 for result in st.session_state.file_results[selected_file]:
                     with st.container():
                         st.subheader(f"Page {result['page']}")
-                        st.text_area(f"OCR Result - Page {result['page']}", result["text"], height=150, key=f"text_{selected_file}_{result['page']}")
+                        
+                        # Try to detect and parse JSON
+                        text_content = result["text"]
+                        is_json = False
+                        try:
+                            # Basic check for JSON
+                            if text_content.strip().startswith('{') and text_content.strip().endswith('}'):
+                                import json
+                                data = json.loads(text_content)
+                                is_json = True
+                                st.success("Structured Data Detected")
+                                
+                                # Flatten the data for a table if it matches our ExtractedField pattern
+                                table_data = []
+                                for key, val in data.items():
+                                    if isinstance(val, dict) and "value" in val:
+                                        bbox = val.get("bounding_box", [])
+                                        table_data.append({
+                                            "Field": key.replace('_', ' ').title(),
+                                            "Value": val["value"],
+                                            "BBox": str(bbox)
+                                        })
+                                    else:
+                                        table_data.append({
+                                            "Field": key.replace('_', ' ').title(),
+                                            "Value": str(val),
+                                            "BBox": "-"
+                                        })
+                                
+                                if table_data:
+                                    st.table(table_data)
+                                else:
+                                    st.json(data)
+                        except Exception:
+                            pass
+                        
+                        if not is_json:
+                            st.text_area(f"OCR Result - Page {result['page']}", text_content, height=150, key=f"text_{selected_file}_{result['page']}")
+                        
                         with st.expander("Page Debug Info"):
                             st.write(f"Processing time: {result['page_time']:.2f} seconds")
+                            if is_json:
+                                st.code(text_content, language="json")
 
         with col2.container():
             st.header("Markdown Preview")
