@@ -5,7 +5,7 @@ from pdf2image import convert_from_bytes
 import streamlit as st
 
 from config import MAX_WORKERS
-from core.state import save_session_state
+from .state import save_session_state
 
 def convert_pdf_to_pages(uploaded_file):
     """Convert PDF to pages."""
