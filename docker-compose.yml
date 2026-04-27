@@ -48,6 +48,9 @@ services:
       - "8501:8501"
     volumes:
       - ./data:/app/data
+      - ./streamlit:/app
+    environment:
+      - STREAMLIT_SERVER_RUN_ON_SAVE=true
     depends_on:
       qwen-vlm:
         condition: service_started
