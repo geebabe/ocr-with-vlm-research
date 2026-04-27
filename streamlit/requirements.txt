@@ -5,3 +5,4 @@ pdf2image
 markdown2
 pynvml
 streamlit_modal
+pydantic

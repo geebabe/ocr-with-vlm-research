@@ -13,11 +13,11 @@ class VinternModel(BaseVLM):
         # Placeholder URLs, to be updated by the user
         self.vllm_url = "http://vintern-vlm:8000/v1/chat/completions"
         self.health_url = "http://vintern-vlm:8000/health"
-        self.model_name = "Vintern-1B-v2"
+        self.model_name = "5CD-AI/Vintern-1B-v3_5"
 
     @classmethod
     def get_name(cls):
-        return "Vintern-1B (vLLM)"
+        return "Vintern-1B v3.5 (vLLM)"
         
     def is_available(self):
         # Reusing the logic from QwenVLModel
