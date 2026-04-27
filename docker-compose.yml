@@ -9,9 +9,10 @@ services:
     image: vllm/vllm-openai:latest
     command: >
       --model Qwen/Qwen3-VL-2B-Instruct-FP8
-      --max-model-len 16384
+      --max-model-len 8192
       --max-num-batched-tokens 4096
       --gpu-memory-utilization 0.85
+      --enforce-eager
       --tensor-parallel-size 1
     environment:
       - HF_TOKEN=${HF_TOKEN:-}

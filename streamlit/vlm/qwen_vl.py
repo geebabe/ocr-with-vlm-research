@@ -37,7 +37,7 @@ class QwenVLModel(BaseVLM):
             page = page.convert('RGB')
         
         # Resize to reasonable dimensions
-        max_dimension = 800
+        max_dimension = 600
         ratio = min(max_dimension / page.width, max_dimension / page.height)
         new_size = (int(page.width * ratio), int(page.height * ratio))
         if ratio < 1:
