@@ -6,7 +6,7 @@ services:
   # Streamlit UI can connect to them via their service names.
   
   qwen-vlm:
-    image: vllm/vllm-openai:latest
+    build: ./vllm_custom
     command: >
       --model Qwen/Qwen3-VL-2B-Instruct-FP8
       --max-model-len 4096
@@ -44,7 +44,7 @@ services:
       - ocr-network
 
   vintern-vlm:
-    image: vllm/vllm-openai:latest
+    build: ./vllm_custom
     command: >
       --model 5CD-AI/Vintern-1B-v3_5
       --trust-remote-code
@@ -83,7 +83,7 @@ services:
       - ocr-network
 
   paddle-ocr-vl:
-    image: vllm/vllm-openai:latest
+    build: ./vllm_custom
     command: >
       --model PaddlePaddle/PaddleOCR-VL
       --trust-remote-code
