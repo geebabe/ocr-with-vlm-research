@@ -18,6 +18,15 @@ class VinternModel(BaseVLM):
     @classmethod
     def get_name(cls):
         return "Vintern-1B v3.5 (vLLM)"
+
+    def get_structured_prompt(self, schema_name="Extraction"):
+        """Override with a Vietnamese prompt for better performance with Vintern."""
+        return (
+            f"Hãy trích xuất thông tin từ hình ảnh theo cấu trúc {schema_name} sau. "
+            "Đối với mỗi trường thông tin, hãy cung cấp giá trị văn bản chính xác và "
+            "toạ độ hộp bao quanh (bounding box) theo định dạng [xmin, ymin, xmax, ymax]. "
+            "Chỉ trả về kết quả dưới dạng một đối tượng JSON hợp lệ."
+        )
         
     def is_available(self):
         # Reusing the logic from QwenVLModel

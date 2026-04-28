@@ -13,6 +13,15 @@ class PaddleOCRModel(BaseVLM):
     @classmethod
     def get_name(cls):
         return "PaddleOCR-VL (vLLM)"
+
+    def get_structured_prompt(self, schema_name="Extraction"):
+        """PaddleOCR-VL expects task prefixes like 'OCR:', 'Table Recognition:', etc."""
+        return (
+            "OCR: "
+            f"Please extract information from this image following this schema: {schema_name}. "
+            "For each field, provide its exact text value. "
+            "Return the result as a strictly formatted JSON object."
+        )
         
     def is_available(self):
         try:
